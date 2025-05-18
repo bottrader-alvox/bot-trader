@@ -74,9 +74,52 @@
       width: 35px;
       height: 35px;
     }
+
+    /* Botão dourado flutuante pulsante canto superior esquerdo */
+    .botao-dourado-flutuante {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background: linear-gradient(45deg, #d4af37, #f0c75e, #d4af37);
+      color: #222;
+      font-weight: bold;
+      padding: 12px 20px;
+      border-radius: 30px;
+      box-shadow: 0 0 15px #d4af37cc;
+      cursor: pointer;
+      text-decoration: none;
+      font-size: 1rem;
+      z-index: 1100;
+      animation: pulse 2s infinite;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      user-select: none;
+      transition: box-shadow 0.3s ease;
+    }
+
+    .botao-dourado-flutuante:hover {
+      box-shadow: 0 0 25px #f0c75eff;
+      text-decoration: none;
+      color: #222;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        box-shadow: 0 0 15px #d4af37cc, 0 0 25px #d4af37aa;
+      }
+      50% {
+        box-shadow: 0 0 25px #f0c75eff, 0 0 35px #f0c75eff;
+      }
+    }
   </style>
 </head>
 <body>
+
+  <!-- Botão dourado flutuante canto superior esquerdo -->
+  <a href="https://trade.obynexbroker.com/register?aff=757282&aff_model=revenue&afftrack=" target="_blank" class="botao-dourado-flutuante" title="Criar conta na corretora">
+    Criar conta na corretora:
+  </a>
 
   <h1>Gráfico de Sinais</h1>
 
