@@ -227,3 +227,51 @@
 
 </body>
 </html>
+<!-- Sessão: Dicas e Avaliação -->
+<section style="background: #1a1a1a; color: #fff; padding: 40px 20px; margin-top: 40px; border-radius: 10px; box-shadow: 0 0 15px #ffc10733; max-width: 800px; margin-left: auto; margin-right: auto;">
+
+  <h2 style="color: #ffc107; font-size: 2rem; margin-bottom: 20px;">Algumas dicas básicas:</h2>
+
+  <p style="font-size: 1.1rem; line-height: 1.6;">
+    Lembre-se de que para você replicar os sinais tem que ser na mesma corretora 
+    (<strong><a href="https://trade.obynexbroker.com/register?aff=757282&aff_model=revenue&afftrack=" target="_blank" style="color: #ffc107;">faça a conta no botão dourado</a></strong>).<br><br>
+
+    Nossa taxa de Assertividade é de <strong>70%</strong>, como qualquer indicador, nunca é 100%.<br><br>
+
+    <strong>ATENÇÃO</strong> nos pares de moedas, indico operar no <strong>BTC/USDT</strong>.<br><br>
+
+    Aproveite enquanto está no ar e não derrubaram ainda esse indicador.<br><br>
+
+    Compartilhe e deixe um feedback já que está se beneficiando do indicador.
+  </p>
+
+  <div style="margin-top: 30px;">
+    <label for="avaliacao" style="display: block; font-size: 1.2rem; margin-bottom: 10px;">
+      O quanto esse indicador está te ajudando?
+    </label>
+
+    <div id="avaliacao" style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+      <!-- Estrelas numeradas de 1 a 10 -->
+      <script>
+        const estrelasContainer = document.getElementById('avaliacao');
+        for (let i = 1; i <= 10; i++) {
+          const btn = document.createElement('button');
+          btn.textContent = i;
+          btn.style.background = '#333';
+          btn.style.color = '#ffc107';
+          btn.style.border = '1px solid #ffc107';
+          btn.style.padding = '10px 15px';
+          btn.style.borderRadius = '8px';
+          btn.style.cursor = 'pointer';
+          btn.style.fontWeight = 'bold';
+          btn.style.transition = '0.3s';
+          btn.onmouseenter = () => btn.style.background = '#ffc10711';
+          btn.onmouseleave = () => btn.style.background = '#333';
+          btn.onclick = () => alert(`Obrigado! Você avaliou com nota ${i}/10.`);
+          estrelasContainer.appendChild(btn);
+        }
+      </script>
+    </div>
+  </div>
+
+</section>
