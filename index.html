@@ -10,6 +10,7 @@
       font-family: Arial, sans-serif;
       text-align: center;
       padding: 20px;
+      position: relative;
     }
 
     canvas {
@@ -46,6 +47,33 @@
     .loss {
       color: #ff4444;
     }
+
+    /* WhatsApp flutuante */
+    .whatsapp-float {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: #25D366;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      box-shadow: 0 0 10px #25D36688;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    .whatsapp-float:hover {
+      transform: scale(1.1);
+    }
+
+    .whatsapp-float img {
+      width: 35px;
+      height: 35px;
+    }
   </style>
 </head>
 <body>
@@ -74,6 +102,11 @@
     <ul id="listaHistorico" style="list-style: none; padding: 0;"></ul>
   </div>
 
+  <!-- Botão flutuante do WhatsApp -->
+  <a class="whatsapp-float" href="https://wa.me/5522992568259" target="_blank" title="Fale comigo no WhatsApp">
+    <img src="https://cdn-icons-png.flaticon.com/512/124/124034.png" alt="WhatsApp">
+  </a>
+
   <script>
     const canvas = document.getElementById("grafico");
     const ctx = canvas.getContext("2d");
@@ -96,19 +129,17 @@
     }
     desenharGrafico();
 
-    // Timer de 60s
     let countdown = 60;
     const timerEl = document.getElementById("timer");
     let operacoes = 0;
     const lista = document.getElementById("listaHistorico");
-
-    let ultimaOperacaoIndex = null; // Para guardar o índice da última operação COMPRA/VENDA
+    let ultimaOperacaoIndex = null;
 
     function atualizarContador() {
       countdown--;
       if (countdown <= 0) {
         countdown = 60;
-        gerarSinal(); // gera automaticamente
+        gerarSinal();
       }
       timerEl.textContent = `Próximo sinal em: ${countdown}s`;
     }
@@ -121,7 +152,6 @@
         "VENDA"
       ];
 
-      // Aplica WIN/LOSS à última operação se for COMPRA ou VENDA
       if (ultimaOperacaoIndex !== null) {
         const li = lista.children[ultimaOperacaoIndex];
         const isWin = Math.random() < 0.8;
@@ -144,9 +174,8 @@
       item.innerHTML = `<strong>${hora}</strong>: ${tipo}`;
       lista.insertBefore(item, lista.firstChild);
 
-      // Se a operação for COMPRA ou VENDA e for depois da 3ª, guarda o índice para aplicar resultado no próximo ciclo
       if ((tipo === "COMPRA" || tipo === "VENDA") && operacoes > 3) {
-        ultimaOperacaoIndex = 0; // sempre o primeiro da lista (inserido por último no topo)
+        ultimaOperacaoIndex = 0;
       }
     }
 
