@@ -1,170 +1,170 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Simulador IQ Option</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gráfico Estilo IQ Option</title>
   <style>
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: #111;
+      background-color: #111;
       color: #fff;
-      text-align: center;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
       padding: 20px;
     }
 
-    h1 {
+    .title {
+      text-align: center;
+      font-size: 2.5rem;
       margin-bottom: 10px;
+      color: #FFD700;
     }
 
-    #pairSelect {
-      margin: 10px auto 20px;
-      padding: 8px 16px;
-      font-size: 16px;
-      border-radius: 6px;
+    .subtitle {
+      text-align: center;
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+      color: #aaa;
+    }
+
+    .tradingview-widget-container {
+      margin: 0 auto;
+      max-width: 100%;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 0 20px #FFD70055;
+    }
+
+    .buttons {
+      text-align: center;
+      margin: 30px 0;
+    }
+
+    .btn {
+      background-color: #FFD700;
+      color: #000;
+      padding: 15px 25px;
+      margin: 10px;
       border: none;
-    }
-
-    #chartContainer {
-      max-width: 800px;
-      margin: 0 auto 20px;
-    }
-
-    #sinal {
-      font-size: 24px;
-      margin: 20px auto;
-      padding: 12px 20px;
       border-radius: 8px;
-      display: inline-block;
-    }
-
-    .winn {
-      color: #0f0;
-      margin-left: 10px;
+      font-size: 1.2rem;
+      cursor: pointer;
       font-weight: bold;
+      transition: background-color 0.3s ease;
     }
 
-    .loss {
-      color: #f00;
-      margin-left: 10px;
-      font-weight: bold;
+    .btn:hover {
+      background-color: #e6c200;
     }
 
-    #historico {
+    .countdown {
+      text-align: center;
+      font-size: 2rem;
+      margin: 20px 0;
+    }
+
+    .sinais {
+      background-color: #222;
+      padding: 20px;
+      border-radius: 10px;
       margin-top: 30px;
-      text-align: left;
-      max-width: 800px;
-      margin-left: auto;
-      margin-right: auto;
-      background: #222;
-      padding: 15px;
-      border-radius: 8px;
     }
 
-    .historico-item {
-      margin-bottom: 8px;
-      border-bottom: 1px solid #333;
-      padding-bottom: 4px;
+    .sinais h3 {
+      text-align: center;
+      color: #FFD700;
+    }
+
+    .sinal-item {
+      padding: 10px;
+      border-bottom: 1px solid #444;
+      display: flex;
+      justify-content: space-between;
+      font-size: 1.1rem;
+    }
+
+    .sinal-item:last-child {
+      border-bottom: none;
+    }
+
+    .sinal-compra {
+      color: #00FF00;
+    }
+
+    .sinal-venda {
+      color: #FF0000;
     }
   </style>
 </head>
 <body>
+  <div class="container">
+    <h1 class="title">Gráfico ao Vivo</h1>
+    <p class="subtitle">Estilo IQ Option com sinais e ações em tempo real</p>
 
-  <h1>Simulador de Sinais - Estilo IQ Option</h1>
+    <!-- Gráfico TradingView -->
+    <div class="tradingview-widget-container">
+      <div id="tradingview_candle"></div>
+    </div>
 
-  <select id="pairSelect">
-    <option value="EUR/USD OTC">EUR/USD OTC</option>
-    <option value="USD/JPY OTC">USD/JPY OTC</option>
-    <option value="GBP/USD OTC">GBP/USD OTC</option>
-    <option value="BTC/USD OTC">BTC/USD OTC</option>
-  </select>
+    <!-- Botões -->
+    <div class="buttons">
+      <button class="btn" onclick="alert('Entrando na operação de COMPRA!')">Entrar em COMPRA</button>
+      <button class="btn" onclick="alert('Entrando na operação de VENDA!')">Entrar em VENDA</button>
+    </div>
 
-  <div id="chartContainer">
-    <canvas id="chartCanvas" height="300"></canvas>
+    <!-- Contador Regressivo -->
+    <div class="countdown" id="countdown">00:30</div>
+
+    <!-- Lista de Sinais -->
+    <div class="sinais">
+      <h3>Histórico de Sinais</h3>
+      <div class="sinal-item"><span>14:01</span> <span class="sinal-compra">COMPRA</span></div>
+      <div class="sinal-item"><span>14:00</span> <span class="sinal-venda">VENDA</span></div>
+      <div class="sinal-item"><span>13:59</span> <span class="sinal-compra">COMPRA</span></div>
+    </div>
   </div>
 
-  <div id="sinal">Aguardando sinal...</div>
-
-  <div id="historico">
-    <h3>Histórico de Sinais</h3>
-    <div id="listaHistorico"></div>
-  </div>
-
+  <!-- Script TradingView -->
+  <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
   <script>
-    const ctx = document.getElementById('chartCanvas').getContext('2d');
-    const labels = Array.from({ length: 20 }, (_, i) => i.toString());
-    const data = {
-      labels: labels,
-      datasets: [{
-        label: 'Preço',
-        data: labels.map(() => Math.random() * 100),
-        borderColor: '#00ff88',
-        backgroundColor: 'rgba(0, 255, 136, 0.2)',
-        tension: 0.4
-      }]
-    };
-    const config = {
-      type: 'line',
-      data: data,
-      options: {
-        animation: false,
-        plugins: { legend: { display: false } },
-        scales: {
-          x: { display: false },
-          y: { display: false }
-        }
-      }
-    };
-    const chart = new Chart(ctx, config);
+    new TradingView.widget({
+      "width": "100%",
+      "height": 400,
+      "symbol": "BINANCE:BTCUSDT",
+      "interval": "1",
+      "timezone": "Etc/UTC",
+      "theme": "dark",
+      "style": "1", // Candlestick
+      "locale": "pt",
+      "toolbar_bg": "#1d1d1d",
+      "enable_publishing": false,
+      "allow_symbol_change": true,
+      "container_id": "tradingview_candle"
+    });
+  </script>
 
-    function atualizarGrafico() {
-      chart.data.datasets[0].data.shift();
-      chart.data.datasets[0].data.push(Math.random() * 100);
-      chart.update();
+  <!-- Script do contador regressivo -->
+  <script>
+    let countdownEl = document.getElementById("countdown");
+    let timeLeft = 30;
+
+    function updateCountdown() {
+      timeLeft--;
+      if (timeLeft <= 0) {
+        timeLeft = 30;
+        // Aqui você pode adicionar um novo sinal
+      }
+      let seconds = timeLeft < 10 ? "0" + timeLeft : timeLeft;
+      countdownEl.innerText = "00:" + seconds;
     }
 
-    setInterval(atualizarGrafico, 3000);
-
-    const opcoes = [
-      "COMPRA",
-      "VENDA",
-      "AGUARDANDO OPORTUNIDADE",
-      "NÃO HÁ TENDÊNCIAS"
-    ];
-
-    function gerarResultadoAleatorio(opcao) {
-      if (opcao === "COMPRA" || opcao === "VENDA") {
-        const chance = Math.random();
-        return chance < 0.7 ? "WINN" : "LOSS";
-      }
-      return "";
-    }
-
-    function atualizarSinal() {
-      const selecionado = document.getElementById("pairSelect").value;
-      const indice = Math.floor(Math.random() * opcoes.length);
-      const opcao = opcoes[indice];
-      const resultado = gerarResultadoAleatorio(opcao);
-
-      let texto = `SINAL (${selecionado}): ${opcao}`;
-      if (resultado) {
-        const corClasse = resultado === "WINN" ? "winn" : "loss";
-        texto += ` <span class="${corClasse}">${resultado}</span>`;
-      }
-
-      document.getElementById("sinal").innerHTML = texto;
-
-      // Adicionar ao histórico
-      const itemHistorico = document.createElement("div");
-      itemHistorico.className = "historico-item";
-      itemHistorico.innerHTML = texto;
-      document.getElementById("listaHistorico").prepend(itemHistorico);
-    }
-
-    setInterval(atualizarSinal, 60000); // A cada 1 minuto
-    atualizarSinal(); // Gera o primeiro sinal imediatamente
+    setInterval(updateCountdown, 1000);
   </script>
 </body>
 </html>
