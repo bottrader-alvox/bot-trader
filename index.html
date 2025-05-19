@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Alvo-X</title>
   <style>
     body {
@@ -11,7 +11,6 @@
       background-color: #111;
       color: #fff;
       overflow-x: hidden;
-      padding-bottom: 100px;
     }
 
     .container {
@@ -42,61 +41,64 @@
       box-shadow: 0 0 20px #FFD70055;
     }
 
-    .temporizador {
+    .buttons {
       text-align: center;
-      font-size: 1.8rem;
       margin: 30px 0;
-      color: #FFD700;
     }
 
-    select {
-      padding: 10px;
-      margin: 10px 0;
-      background-color: #222;
-      color: #fff;
-      border: 1px solid #444;
-      border-radius: 5px;
-    }
-
-    .titulo {
-      font-size: 1.5rem;
-      margin: 20px 0 10px;
-      color: #FFD700;
-    }
-
-    .planilha {
-      width: 100%;
-      border-collapse: collapse;
-      margin-bottom: 20px;
-    }
-
-    .planilha th, .planilha td {
-      border: 1px solid #333;
-      padding: 8px;
-      text-align: center;
-    }
-
-    .planilha th {
-      background-color: #222;
-    }
-
-    .sinal {
+    .btn {
+      background-color: #FFD700;
+      color: #000;
+      padding: 15px 25px;
+      margin: 10px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.2rem;
+      cursor: pointer;
       font-weight: bold;
-      padding: 5px 10px;
-      border-radius: 4px;
+      transition: background-color 0.3s ease;
     }
 
-    .verde { background-color: green; }
-    .vermelho { background-color: red; }
-    .amarelo { background-color: gold; color: #000; }
-    .dourado { background-color: #daa520; }
+    .btn:hover {
+      background-color: #e6c200;
+    }
 
-    /* Rodapé visual opcional */
-    footer {
+    .countdown {
       text-align: center;
+      font-size: 2rem;
+      margin: 20px 0;
+    }
+
+    .sinais {
+      background-color: #222;
       padding: 20px;
-      background: #000;
-      color: #aaa;
+      border-radius: 10px;
+      margin-top: 30px;
+    }
+
+    .sinais h3 {
+      text-align: center;
+      color: #FFD700;
+    }
+
+    .sinal-item {
+      padding: 10px;
+      border-bottom: 1px solid #444;
+      display: flex;
+      justify-content: space-between;
+      font-size: 1.1rem;
+    }
+
+    .sinal-item:last-child {
+      border-bottom: none;
+    }
+
+    .sinal-compra {
+      color: #00FF00;
+    }
+
+    .sinal-venda {
+      color: #FF0000;
     }
   </style>
 </head>
@@ -105,12 +107,113 @@
     <h1 class="title">Alvo-X</h1>
     <p class="subtitle">Só copiar e colar as operações e começar lucrar</p>
 
-    <!-- GRÁFICO -->
+    <!-- Gráfico TradingView -->
     <div class="tradingview-widget-container">
       <div id="tradingview_candle"></div>
     </div>
 
-    <!-- SELECTS DE PAR E CORRETORA -->
+  
+  <!-- Script TradingView -->
+  <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+  <script>
+    new TradingView.widget({
+      "width": "100%",
+      "height": 400,
+      "symbol": "BINANCE:BTCUSDT",
+      "interval": "1",
+      "timezone": "Etc/UTC",
+      "theme": "dark",
+      "style": "1", // Candlestick
+      "locale": "pt",
+      "toolbar_bg": "#1d1d1d",
+      "enable_publishing": false,
+      "allow_symbol_change": true,
+      "container_id": "tradingview_candle"
+    });
+  </script>
+
+  <!-- Script do contador regressivo -->
+  <script>
+    let countdownEl = document.getElementById("countdown");
+    let timeLeft = 30;
+
+    function updateCountdown() {
+      timeLeft--;
+      if (timeLeft <= 0) {
+        timeLeft = 30;
+        // Aqui você pode adicionar um novo sinal
+      }
+      let seconds = timeLeft < 10 ? "0" + timeLeft : timeLeft;
+      countdownEl.innerText = "00:" + seconds;
+    }
+
+    setInterval(updateCountdown, 1000);
+  </script>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Simulador de Sinais OTC</title>
+  <style>
+    body {
+      background-color: #111;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    select, .corretora {
+      padding: 10px;
+      margin: 10px 0;
+      background-color: #222;
+      color: #fff;
+      border: 1px solid #444;
+      border-radius: 5px;
+    }
+    .titulo {
+      font-size: 1.5rem;
+      margin: 20px 0 10px;
+    }
+    .planilha {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+    .planilha th, .planilha td {
+      border: 1px solid #333;
+      padding: 8px;
+      text-align: center;
+    }
+    .planilha th {
+      background-color: #222;
+    }
+    .sinal {
+      font-weight: bold;
+      padding: 5px 10px;
+      border-radius: 4px;
+    }
+    .verde { background-color: green; }
+    .vermelho { background-color: red; }
+    .amarelo { background-color: gold; color: #000; }
+    .dourado { background-color: #daa520; }
+    .temporizador {
+      font-size: 1.2rem;
+      text-align: center;
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Simulador de Sinais OTC</h1>
+
     <label for="pares">Selecione o par de moedas:</label>
     <select id="pares">
       <option>EUR/USD (OTC)</option>
@@ -136,30 +239,12 @@
           <th>Resultado</th>
         </tr>
       </thead>
-      <tbody></tbody>
+      <tbody>
+        <!-- Linhas geradas dinamicamente -->
+      </tbody>
     </table>
   </div>
 
-  <!-- SCRIPT TRADINGVIEW -->
-  <script src="https://s3.tradingview.com/tv.js"></script>
-  <script>
-    new TradingView.widget({
-      "width": "100%",
-      "height": 400,
-      "symbol": "BINANCE:BTCUSDT",
-      "interval": "1",
-      "timezone": "Etc/UTC",
-      "theme": "dark",
-      "style": "1",
-      "locale": "pt",
-      "toolbar_bg": "#1d1d1d",
-      "enable_publishing": false,
-      "allow_symbol_change": true,
-      "container_id": "tradingview_candle"
-    });
-  </script>
-
-  <!-- SCRIPT DE SINAIS -->
   <script>
     const sinais = [
       { texto: 'COMPRA', classe: 'verde' },
@@ -168,6 +253,7 @@
       { texto: 'NÃO HÁ TENDÊNCIAS', classe: 'dourado' }
     ];
 
+    // Gera WINN ou LOSS com 70% de chance de WINN
     function gerarResultado() {
       return Math.random() < 0.7 ? 'WINN' : 'LOSS';
     }
@@ -178,31 +264,57 @@
       const sinal = sinais[Math.floor(Math.random() * sinais.length)];
       const tabela = document.getElementById("historico").querySelector("tbody");
 
-      const idLinha = 'linha-' + Date.now();
-      const linha = document.createElement("tr");
-      linha.setAttribute('id', idLinha);
-
-      linha.innerHTML = `
-        <td>${hora}</td>
-        <td>${parSelecionado}</td>
-        <td><span class="sinal ${sinal.classe}">${sinal.texto}</span></td>
-        <td class="resultado">Aguardando...</td>
-      `;
-      tabela.insertBefore(linha, tabela.firstChild);
-
+      // Para sinais COMPRA ou VENDA, adiciona linha sem resultado e agenda atualização
       if (sinal.texto === 'COMPRA' || sinal.texto === 'VENDA') {
+        // Cria uma linha com id único para poder atualizar depois
+        const idLinha = 'linha-' + Date.now();
+
+        const linha = document.createElement("tr");
+        linha.setAttribute('id', idLinha);
+
+        linha.innerHTML = `
+          <td>${hora}</td>
+          <td>${parSelecionado}</td>
+          <td><span class="sinal ${sinal.classe}">${sinal.texto}</span></td>
+          <td class="resultado">Aguardando...</td>
+        `;
+
+        // Insere no topo da tabela
+        tabela.insertBefore(linha, tabela.firstChild);
+
+        // Depois de 1 minuto, atualiza resultado para WINN ou LOSS
         setTimeout(() => {
           const resultado = gerarResultado();
-          const tdResultado = document.getElementById(idLinha).querySelector('.resultado');
-          tdResultado.textContent = resultado;
-          tdResultado.style.color = resultado === 'WINN' ? 'limegreen' : 'red';
-          tdResultado.style.fontWeight = 'bold';
-        }, 60000);
+          const linhaAtual = document.getElementById(idLinha);
+          if (linhaAtual) {
+            const tdResultado = linhaAtual.querySelector('.resultado');
+            tdResultado.textContent = resultado;
+
+            // Aplica cor verde para WINN e vermelho para LOSS
+            if (resultado === 'WINN') {
+              tdResultado.style.color = 'limegreen';
+              tdResultado.style.fontWeight = 'bold';
+            } else {
+              tdResultado.style.color = 'red';
+              tdResultado.style.fontWeight = 'bold';
+            }
+          }
+        }, 60000); // 60000 ms = 1 minuto
+
       } else {
-        document.getElementById(idLinha).querySelector('.resultado').textContent = '';
+        // Para outros sinais, mostra a linha direto com resultado vazio
+        const linha = document.createElement("tr");
+        linha.innerHTML = `
+          <td>${hora}</td>
+          <td>${parSelecionado}</td>
+          <td><span class="sinal ${sinal.classe}">${sinal.texto}</span></td>
+          <td></td>
+        `;
+        tabela.insertBefore(linha, tabela.firstChild);
       }
     }
 
+    // Timer de 60s para gerar sinais
     let tempo = 60;
     function atualizarTimer() {
       document.getElementById("timer").innerText = `Próximo sinal em: ${tempo}s`;
@@ -214,11 +326,114 @@
     }
 
     setInterval(atualizarTimer, 1000);
+
+    // Gera o primeiro sinal imediatamente ao carregar
     gerarSinal();
   </script>
-
-  <footer>
-    © 2025 - Alvo-X | Simulador de Sinais OTC
-  </footer>
 </body>
 </html>
+
+<!-- SEÇÃO IMPORTANTE -->
+<section style="background: #111; color: white; padding: 40px 20px; text-align: left; max-width: 900px; margin: auto;">
+  <h2 style="color: red; animation: blink 1s infinite; font-size: 2.2rem; margin-bottom: 20px;">⚠️ IMPORTANTE</h2>
+  <ul style="line-height: 1.8; font-size: 1.1rem; padding-left: 20px;">
+    <li><strong>1.</strong> Para você pegar meus sinais, lembre-se que deve estar na <strong>mesma corretora que estamos replicando os sinais</strong>.</li>
+    <li><strong>2.</strong> Fiquem atentos aos <strong>pares de moedas</strong>, tem que ser o mesmo selecionado.</li>
+    <li><strong>3.</strong> A plataforma <strong>Alvo-X</strong> é <span style="color: #0f0;">100% gratuita</span>, <u>não aceitem cobranças de terceiros</u>.</li>
+    <li><strong>4.</strong> Para manter essa plataforma no ar, há um custo alto. Se desejar ajudar, faça uma <strong>doação</strong> enviando mensagem para o <u>suporte</u>.</li>
+    <li><strong>5.</strong> Nossa taxa de assertividade média é de <strong>70%</strong>, assim como a maioria dos bons indicadores de sinais.</li>
+    <li><strong>6.</strong> Fique atento na hora de <span style="color: #0f0;"><strong>comprar</strong></span> ou <span style="color: red;"><strong>vender</strong></span> para <u>não pegar entrada atrasada</u>.</li>
+  </ul>
+
+  <!-- Botão Criar Conta -->
+  <div style="margin-top: 30px; text-align: center;">
+    <p style="font-size: 1.1rem; margin-bottom: 10px;">Ainda não tem conta?</p>
+    <a href="https://trade.obynexbroker.com/register?aff=757282&aff_model=revenue&afftrack=" target="_blank" style="background: #FFD700; border: none; padding: 12px 25px; border-radius: 10px; font-weight: bold; font-size: 1rem; cursor: pointer; text-decoration: none; color: #000;">
+      Criar Conta na Corretora
+    </a>
+  </div>
+
+  <!-- Compartilhar -->
+  <div style="margin-top: 30px; text-align: center;">
+    <p style="font-size: 1.1rem;">Ajude a divulgar a plataforma <strong>Alvo-X</strong>!</p>
+    <a href="https://api.whatsapp.com/send?text=Conheça%20a%20plataforma%20de%20sinais%20Alvo-X%3A%20https%3A%2F%2Fbottrader-alvox.github.io%2Fbot-trader%2F" target="_blank" style="text-decoration: none; display: inline-flex; align-items: center; gap: 10px; background: #25D366; color: white; padding: 12px 20px; border-radius: 8px; font-weight: bold; font-size: 1rem;">
+      <img src="https://cdn-icons-png.flaticon.com/512/2111/2111728.png" alt="Compartilhar" style="width: 24px; height: 24px;">
+      Compartilhar no WhatsApp
+    </a>
+  </div>
+</section>
+
+<!-- Animação de piscar -->
+<style>
+  @keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0.3; }
+    100% { opacity: 1; }
+  }
+</style>
+
+<!-- Ícone WhatsApp flutuante chamativo -->
+<a href="https://wa.me/5522999617289" target="_blank"
+   class="whatsapp-flutuante"
+   aria-label="Suporte WhatsApp"
+   title="Fale conosco no WhatsApp"
+>
+  <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" />
+</a>
+
+<style>
+.whatsapp-flutuante {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #25D366;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow:
+    0 0 8px #25D366,
+    0 0 15px #25D366,
+    0 0 20px #25D366,
+    0 0 30px #1ebe57;
+  z-index: 9999;
+  animation: brilho-pulsante 2.5s infinite ease-in-out;
+  cursor: pointer;
+  transition: box-shadow 0.3s ease;
+}
+
+.whatsapp-flutuante:hover {
+  box-shadow:
+    0 0 12px #128C7E,
+    0 0 25px #128C7E,
+    0 0 40px #128C7E,
+    0 0 60px #0f6f57;
+}
+
+.whatsapp-flutuante img {
+  width: 32px;
+  height: 32px;
+  filter: drop-shadow(0 0 2px #0f6f57);
+}
+
+@keyframes brilho-pulsante {
+  0%, 100% {
+    box-shadow:
+      0 0 8px #25D366,
+      0 0 15px #25D366,
+      0 0 20px #25D366,
+      0 0 30px #1ebe57;
+  }
+  50% {
+    box-shadow:
+      0 0 20px #25D366,
+      0 0 35px #25D366,
+      0 0 45px #25D366,
+      0 0 60px #1ebe57;
+  }
+}
+</style>
+
+
