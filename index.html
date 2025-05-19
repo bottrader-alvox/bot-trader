@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+00<!DOCTYPE html>
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
@@ -373,31 +373,68 @@
   }
 </style>
 ------------------------------------------------------------------
-<!-- Ícone WhatsApp flutuante -->
-<a href="https://wa.me/5522999617289" target="_blank" 
-   style="
-     position: fixed;
-     top: 20px;
-     right: 20px;
-     background-color: #25D366;
-     width: 50px;
-     height: 50px;
-     border-radius: 50%;
-     display: flex;
-     justify-content: center;
-     align-items: center;
-     box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-     z-index: 9999;
-     transition: background-color 0.3s ease;
-   "
-   onmouseover="this.style.backgroundColor='#128C7E';"
-   onmouseout="this.style.backgroundColor='#25D366';"
+<!-- Ícone WhatsApp flutuante chamativo -->
+<a href="https://wa.me/5522999617289" target="_blank"
+   class="whatsapp-flutuante"
    aria-label="Suporte WhatsApp"
    title="Fale conosco no WhatsApp"
 >
-  <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" 
-       alt="WhatsApp" 
-       style="width: 28px; height: 28px;" />
+  <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" />
 </a>
+
+<style>
+.whatsapp-flutuante {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #25D366;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow:
+    0 0 8px #25D366,
+    0 0 15px #25D366,
+    0 0 20px #25D366,
+    0 0 30px #1ebe57;
+  z-index: 9999;
+  animation: brilho-pulsante 2.5s infinite ease-in-out;
+  cursor: pointer;
+  transition: box-shadow 0.3s ease;
+}
+
+.whatsapp-flutuante:hover {
+  box-shadow:
+    0 0 12px #128C7E,
+    0 0 25px #128C7E,
+    0 0 40px #128C7E,
+    0 0 60px #0f6f57;
+}
+
+.whatsapp-flutuante img {
+  width: 32px;
+  height: 32px;
+  filter: drop-shadow(0 0 2px #0f6f57);
+}
+
+@keyframes brilho-pulsante {
+  0%, 100% {
+    box-shadow:
+      0 0 8px #25D366,
+      0 0 15px #25D366,
+      0 0 20px #25D366,
+      0 0 30px #1ebe57;
+  }
+  50% {
+    box-shadow:
+      0 0 20px #25D366,
+      0 0 35px #25D366,
+      0 0 45px #25D366,
+      0 0 60px #1ebe57;
+  }
+}
+</style>
 
 
