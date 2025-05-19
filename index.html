@@ -158,8 +158,8 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Simulador de Sinais OTC</title>
   <style>
     body {
@@ -256,6 +256,7 @@
       { texto: 'NÃO HÁ TENDÊNCIAS', classe: 'dourado' }
     ];
 
+    // Gera WINN ou LOSS com 70% de chance de WINN
     function gerarResultado() {
       return Math.random() < 0.7 ? 'WINN' : 'LOSS';
     }
@@ -264,22 +265,59 @@
       const parSelecionado = document.getElementById("pares").value;
       const hora = new Date().toLocaleTimeString();
       const sinal = sinais[Math.floor(Math.random() * sinais.length)];
-      const resultado = gerarResultado();
+      const tabela = document.getElementById("historico").querySelector("tbody");
 
-      const linha = `
-        <tr>
+      // Para sinais COMPRA ou VENDA, adiciona linha sem resultado e agenda atualização
+      if (sinal.texto === 'COMPRA' || sinal.texto === 'VENDA') {
+        // Cria uma linha com id único para poder atualizar depois
+        const idLinha = 'linha-' + Date.now();
+
+        const linha = document.createElement("tr");
+        linha.setAttribute('id', idLinha);
+
+        linha.innerHTML = `
           <td>${hora}</td>
           <td>${parSelecionado}</td>
           <td><span class="sinal ${sinal.classe}">${sinal.texto}</span></td>
-          <td>${resultado}</td>
-        </tr>
-      `;
+          <td class="resultado">Aguardando...</td>
+        `;
 
-      const tabela = document.getElementById("historico").querySelector("tbody");
-      tabela.insertAdjacentHTML("afterbegin", linha);
+        // Insere no topo da tabela
+        tabela.insertBefore(linha, tabela.firstChild);
+
+        // Depois de 1 minuto, atualiza resultado para WINN ou LOSS
+        setTimeout(() => {
+          const resultado = gerarResultado();
+          const linhaAtual = document.getElementById(idLinha);
+          if (linhaAtual) {
+            const tdResultado = linhaAtual.querySelector('.resultado');
+            tdResultado.textContent = resultado;
+
+            // Aplica cor verde para WINN e vermelho para LOSS
+            if (resultado === 'WINN') {
+              tdResultado.style.color = 'limegreen';
+              tdResultado.style.fontWeight = 'bold';
+            } else {
+              tdResultado.style.color = 'red';
+              tdResultado.style.fontWeight = 'bold';
+            }
+          }
+        }, 60000); // 60000 ms = 1 minuto
+
+      } else {
+        // Para outros sinais, mostra a linha direto com resultado vazio
+        const linha = document.createElement("tr");
+        linha.innerHTML = `
+          <td>${hora}</td>
+          <td>${parSelecionado}</td>
+          <td><span class="sinal ${sinal.classe}">${sinal.texto}</span></td>
+          <td></td>
+        `;
+        tabela.insertBefore(linha, tabela.firstChild);
+      }
     }
 
-    // Timer
+    // Timer de 60s para gerar sinais
     let tempo = 60;
     function atualizarTimer() {
       document.getElementById("timer").innerText = `Próximo sinal em: ${tempo}s`;
@@ -289,8 +327,13 @@
       }
       tempo--;
     }
+
     setInterval(atualizarTimer, 1000);
+
+    // Gera o primeiro sinal imediatamente ao carregar
+    gerarSinal();
   </script>
 </body>
 </html>
+
 
