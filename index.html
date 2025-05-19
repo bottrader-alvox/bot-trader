@@ -1,271 +1,170 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <title> ALVO-X </title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gráfico Estilo IQ Option</title>
   <style>
     body {
-      background: #111;
-      color: #fff;
+      margin: 0;
       font-family: Arial, sans-serif;
-      text-align: center;
+      background-color: #111;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
       padding: 20px;
-      position: relative;
-      font-size: 1.1rem; /* aumentei o tamanho base do texto */
     }
 
-    canvas {
-      background: #1d1d1d;
-      border: 1px solid #333;
-      margin: 20px 0;
-      border-radius: 10px;
-      box-shadow: 0 0 10px #00f2ff44;
+    .title {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      color: #FFD700;
     }
 
-    select {
-      padding: 14px 22px; /* maior padding */
-      margin: 12px;
-      background: #222;
-      color: white;
-      border: 1px solid #555;
-      border-radius: 6px;
-      font-size: 1.25rem; /* fonte maior */
+    .subtitle {
+      text-align: center;
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+      color: #aaa;
     }
 
-    #timer {
-      font-size: 1.5rem; /* maior texto */
+    .tradingview-widget-container {
+      margin: 0 auto;
+      max-width: 100%;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 0 20px #FFD70055;
+    }
+
+    .buttons {
+      text-align: center;
+      margin: 30px 0;
+    }
+
+    .btn {
+      background-color: #FFD700;
+      color: #000;
+      padding: 15px 25px;
       margin: 10px;
-    }
-
-    #historico {
-      margin-top: 30px;
-      font-size: 1.2rem; /* maior texto */
-    }
-
-    .win {
-      color: #00ff00;
-    }
-
-    .loss {
-      color: #ff4444;
-    }
-
-    /* WhatsApp flutuante */
-    .whatsapp-float {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background-color: #25D366;
-      border-radius: 50%;
-      width: 80px; /* maior botão */
-      height: 80px;
-      box-shadow: 0 0 10px #25D36688;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.2rem;
       cursor: pointer;
-      transition: transform 0.3s;
-    }
-
-    .whatsapp-float:hover {
-      transform: scale(1.1);
-    }
-
-    .whatsapp-float img {
-      width: 50px; /* imagem maior */
-      height: 50px;
-    }
-
-    /* Botão dourado flutuante pulsante canto superior esquerdo */
-    .botao-dourado-flutuante {
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      background: linear-gradient(45deg, #d4af37, #f0c75e, #d4af37);
-      color: #222;
       font-weight: bold;
-      padding: 18px 28px; /* padding maior */
-      border-radius: 30px;
-      box-shadow: 0 0 15px #d4af37cc;
-      cursor: pointer;
-      text-decoration: none;
-      font-size: 1.4rem; /* fonte maior */
-      z-index: 1100;
-      animation: pulse 2s infinite;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #e6c200;
+    }
+
+    .countdown {
+      text-align: center;
+      font-size: 2rem;
+      margin: 20px 0;
+    }
+
+    .sinais {
+      background-color: #222;
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 30px;
+    }
+
+    .sinais h3 {
+      text-align: center;
+      color: #FFD700;
+    }
+
+    .sinal-item {
+      padding: 10px;
+      border-bottom: 1px solid #444;
       display: flex;
-      align-items: center;
-      gap: 12px;
-      user-select: none;
-      transition: box-shadow 0.3s ease;
+      justify-content: space-between;
+      font-size: 1.1rem;
     }
 
-    .botao-dourado-flutuante:hover {
-      box-shadow: 0 0 25px #f0c75eff;
-      text-decoration: none;
-      color: #222;
+    .sinal-item:last-child {
+      border-bottom: none;
     }
 
-    /* Botões das estrelas na seção de avaliação */
-    #avaliacao button {
-      padding: 14px 20px !important; /* aumentar padding */
-      font-size: 1.3rem !important; /* aumentar fonte */
-      border-radius: 10px !important;
+    .sinal-compra {
+      color: #00FF00;
     }
 
-    /* Botão Quero comprar o VIP */
-    section a[target="_blank"] {
-      background: #ffc107 !important;
-      color: #000 !important;
-      padding: 20px 45px !important;
-      font-size: 1.5rem !important;
-      border-radius: 50px !important;
-      font-weight: bold !important;
-      text-decoration: none !important;
-      transition: 0.3s !important;
-      animation: pulse 1.2s infinite !important;
-      display: inline-block !important;
+    .sinal-venda {
+      color: #FF0000;
     }
-
   </style>
 </head>
 <body>
+  <div class="container">
+    <h1 class="title">Gráfico ao Vivo</h1>
+    <p class="subtitle">Estilo IQ Option com sinais e ações em tempo real</p>
 
-  <!-- Botão dourado flutuante canto superior esquerdo -->
-  <a href="https://trade.obynexbroker.com/register?aff=757282&aff_model=revenue&afftrack=" target="_blank" class="botao-dourado-flutuante" title="Criar conta na corretora">
-    Criar conta na corretora:
-  </a>
+    <!-- Gráfico TradingView -->
+    <div class="tradingview-widget-container">
+      <div id="tradingview_candle"></div>
+    </div>
 
-  <h1>Gráfico de Sinais</h1>
+    <!-- Botões -->
+    <div class="buttons">
+      <button class="btn" onclick="alert('Entrando na operação de COMPRA!')">Entrar em COMPRA</button>
+      <button class="btn" onclick="alert('Entrando na operação de VENDA!')">Entrar em VENDA</button>
+    </div>
 
-  <div>
-    <select id="moeda">
-      <option value="BTC/USDT">BTC/USDT</option>
-      <option value="ETH/USDT">ETH/USDT</option>
-      <option value="EUR/USD">EUR/USD</option>
-      <option value="GBP/USD">GBP/USD</option>
-    </select>
+    <!-- Contador Regressivo -->
+    <div class="countdown" id="countdown">00:30</div>
 
-    <select id="expiracao">
-      <option value="60">Expiração: 1 Minuto</option>
-    </select>
-
-    <div id="timer">Próximo sinal em: 60s</div>
+    <!-- Lista de Sinais -->
+    <div class="sinais">
+      <h3>Histórico de Sinais</h3>
+      <div class="sinal-item"><span>14:01</span> <span class="sinal-compra">COMPRA</span></div>
+      <div class="sinal-item"><span>14:00</span> <span class="sinal-venda">VENDA</span></div>
+      <div class="sinal-item"><span>13:59</span> <span class="sinal-compra">COMPRA</span></div>
+    </div>
   </div>
 
-  <canvas id="grafico" width="800" height="300"></canvas>
-
-  <div id="historico">
-    <h3>📜 Histórico de Sinais</h3>
-    <ul id="listaHistorico" style="list-style: none; padding: 0;"></ul>
-  </div>
-
-  <!-- Botão flutuante do WhatsApp -->
-  <a class="whatsapp-float" href="https://wa.me/5522999617289" target="_blank" title="Fale comigo no WhatsApp">
-    <img src="https://cdn-icons-png.flaticon.com/512/124/124034.png" alt="WhatsApp">
-  </a>
-
+  <!-- Script TradingView -->
+  <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
   <script>
-    const canvas = document.getElementById("grafico");
-    const ctx = canvas.getContext("2d");
-    const width = canvas.width;
-    const height = canvas.height;
-    let t = 0;
-
-    function desenharGrafico() {
-      ctx.clearRect(0, 0, width, height);
-      ctx.beginPath();
-      for (let x = 0; x < width; x++) {
-        let y = height / 2 + Math.sin((x + t) * 0.03) * 40 + Math.sin((x + t) * 0.015) * 20;
-        ctx.lineTo(x, y);
-      }
-      ctx.strokeStyle = "#00ffff";
-      ctx.lineWidth = 2;
-      ctx.stroke();
-      t += 1.5;
-      requestAnimationFrame(desenharGrafico);
-    }
-    desenharGrafico();
-
-    let countdown = 60;
-    const timerEl = document.getElementById("timer");
-    let operacoes = 0;
-    const lista = document.getElementById("listaHistorico");
-    let ultimaOperacaoIndex = null;
-
-    function atualizarContador() {
-      countdown--;
-      if (countdown <= 0) {
-        countdown = 60;
-        gerarSinal();
-      }
-      timerEl.textContent = `Próximo sinal em: ${countdown}s`;
-    }
-
-    function gerarSinal() {
-      const opcoes = [
-        "AINDA NÃO HÁ TENDÊNCIAS",
-        "AGUARDANDO UMA OPORTUNIDADE",
-        "COMPRA",
-        "VENDA"
-      ];
-
-      if (ultimaOperacaoIndex !== null) {
-        const li = lista.children[ultimaOperacaoIndex];
-        const isWin = Math.random() < 0.8;
-        const resultado = isWin ? " - WIN" : " - LOSS";
-        const classe = isWin ? "win" : "loss";
-
-        const span = document.createElement("span");
-        span.className = classe;
-        span.textContent = resultado;
-        li.appendChild(span);
-
-        ultimaOperacaoIndex = null;
-      }
-
-      const tipo = opcoes[Math.floor(Math.random() * opcoes.length)];
-      operacoes++;
-      const hora = new Date().toLocaleTimeString();
-
-      const item = document.createElement("li");
-      item.innerHTML = `<strong>${hora}</strong>: ${tipo}`;
-      lista.insertBefore(item, lista.firstChild);
-
-      if ((tipo === "COMPRA" || tipo === "VENDA") && operacoes > 3) {
-        ultimaOperacaoIndex = 0;
-      }
-    }
-
-    setInterval(atualizarContador, 1000);
+    new TradingView.widget({
+      "width": "100%",
+      "height": 400,
+      "symbol": "BINANCE:BTCUSDT",
+      "interval": "1",
+      "timezone": "Etc/UTC",
+      "theme": "dark",
+      "style": "1", // Candlestick
+      "locale": "pt",
+      "toolbar_bg": "#1d1d1d",
+      "enable_publishing": false,
+      "allow_symbol_change": true,
+      "container_id": "tradingview_candle"
+    });
   </script>
 
+  <!-- Script do contador regressivo -->
+  <script>
+    let countdownEl = document.getElementById("countdown");
+    let timeLeft = 30;
+
+    function updateCountdown() {
+      timeLeft--;
+      if (timeLeft <= 0) {
+        timeLeft = 30;
+        // Aqui você pode adicionar um novo sinal
+      }
+      let seconds = timeLeft < 10 ? "0" + timeLeft : timeLeft;
+      countdownEl.innerText = "00:" + seconds;
+    }
+
+    setInterval(updateCountdown, 1000);
+  </script>
 </body>
 </html>
-<!-- Sessão: Dicas e Avaliação -->
-<section style="background: #1a1a1a; color: #fff; padding: 40px 20px; margin-top: 40px; border-radius: 10px; box-shadow: 0 0 15px #ffc10733; max-width: 800px; margin-left: auto; margin-right: auto;">
-
-  <h2 style="color: #ffc107; font-size: 2rem; margin-bottom: 20px;">Algumas dicas básicas:</h2>
-
-  <p style="font-size: 1.1rem; line-height: 1.6;">
-    Lembre-se de que para você replicar os sinais tem que ser na mesma corretora 
-    <strong><a href="https://trade.obynexbroker.com/register?aff=757282&aff_model=revenue&afftrack=" target="_blank" style="color: #ffc107;">faça a conta no botão dourado</a></strong>.<br><br>
-
-    Nossa taxa de Assertividade é de <strong>70%</strong>, como qualquer indicador, nunca é 100%.<br><br>
-
-    <strong>ATENÇÃO</strong> nos pares de moedas, indico operar no <strong>BTC/USDT</strong>.<br><br>
-
-    Você tem apenas 30 dias GRATUITOS, mas não se preocupe, temos o VIP, caso tenha interesse.<br><br>
-
-    Compartilhe e deixe um feedback já que está se beneficiando do indicador.
-  </p>
-
-  <div style="margin-top: 30px;">
-    <label for="avaliacao" style="display: block; font-size: 1.2rem; margin-bottom: 10px;">
-  
-    </label>
-
-    <div id="avaliacao" style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
-      <!-- Estrelas numeradas de 1 a 10 -->
-      <script>
-        const estrelas
