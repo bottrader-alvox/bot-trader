@@ -1,101 +1,197 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <title>Simulador de Sinais</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Alvo-X | Sinais OTC</title>
   <style>
     body {
+      margin: 0;
       font-family: Arial, sans-serif;
-      background: #000;
+      background-color: #111;
       color: #fff;
-      text-align: center;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: auto;
       padding: 20px;
     }
-    label, select {
-      margin: 10px;
-      font-size: 16px;
+
+    .title {
+      text-align: center;
+      font-size: 2.2rem;
+      margin-bottom: 10px;
+      color: #FFD700;
     }
-    table {
-      margin: 20px auto;
-      width: 90%;
+
+    .subtitle {
+      text-align: center;
+      font-size: 1rem;
+      margin-bottom: 20px;
+      color: #aaa;
+    }
+
+    .tradingview-widget-container {
+      max-width: 100%;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 0 20px #FFD70055;
+      margin-bottom: 30px;
+    }
+
+    .btn {
+      background-color: #FFD700;
+      color: #000;
+      padding: 12px 20px;
+      margin: 5px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .btn:hover {
+      background-color: #e6c200;
+    }
+
+    select {
+      width: 100%;
+      padding: 10px;
+      background-color: #222;
+      color: #fff;
+      border: 1px solid #444;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+
+    .temporizador {
+      text-align: center;
+      font-size: 1.2rem;
+      margin: 20px 0;
+    }
+
+    .planilha {
+      width: 100%;
       border-collapse: collapse;
     }
-    th, td {
-      border: 1px solid #555;
-      padding: 10px;
+
+    .planilha th, .planilha td {
+      border: 1px solid #333;
+      padding: 8px;
+      text-align: center;
+      font-size: 0.9rem;
     }
+
     .sinal {
       font-weight: bold;
+      padding: 4px 8px;
+      border-radius: 4px;
     }
-    .verde {
-      color: limegreen;
-    }
-    .vermelho {
-      color: red;
-    }
-    .amarelo {
-      color: gold;
-    }
-    .roxo {
-      color: violet;
+
+    .verde { background-color: green; }
+    .vermelho { background-color: red; }
+    .amarelo { background-color: gold; color: #000; }
+    .dourado { background-color: #daa520; }
+
+    @media (max-width: 600px) {
+      .title {
+        font-size: 1.8rem;
+      }
+      .subtitle {
+        font-size: 0.95rem;
+      }
+      .btn {
+        font-size: 0.9rem;
+        padding: 10px 15px;
+      }
+      .planilha th, .planilha td {
+        font-size: 0.8rem;
+        padding: 6px;
+      }
     }
   </style>
 </head>
 <body>
+  <div class="container">
+    <h1 class="title">Alvo-X</h1>
+    <p class="subtitle">Só copiar e colar as operações e começar a lucrar</p>
 
-  <h1>Simulador de Sinais</h1>
+    <div class="tradingview-widget-container">
+      <div id="tradingview_candle"></div>
+    </div>
 
-  <label for="pares">Par de Moedas:</label>
-  <select id="pares">
-    <option value="EUR/USD">EUR/USD</option>
-    <option value="USD/BRL">USD/BRL</option>
-    <option value="BTC/USD">BTC/USD</option>
-    <option value="ETH/USD">ETH/USD</option>
-  </select>
+    <label for="pares">Par de moedas:</label>
+    <select id="pares">
+      <option>EUR/USD (OTC)</option>
+      <option>USD/JPY (OTC)</option>
+      <option>AUD/CAD (OTC)</option>
+      <option>USD/BRL (OTC)</option>
+      <option>EUR/JPY (OTC)</option>
+      <option>BTC/USD (OTC)</option>
+    </select>
 
-  <label for="corretora">Corretora:</label>
-  <select id="corretora">
-    <option>Obynex</option>
-    <option>Astron</option>
-    <option>IQ-Option</option>
-    <option>Hoken-broker</option>
-  </select>
+    <label for="corretora">Corretora:</label>
+    <select id="corretora">
+      <option>Obynex</option>
+      <option>Astron</option>
+      <option>IQ-Option</option>
+      <option>Hoken-broker</option>
+    </select>
 
-  <label for="expiracao">Tempo de expiração:</label>
-  <select id="expiracao">
-    <option value="60">1 minuto</option>
-  </select>
+    <div class="temporizador" id="timer">Próximo sinal em: 60s</div>
 
-  <br><br>
-  <button onclick="gerarSinal()">Gerar Sinal</button>
+    <h2>Sinais ao Vivo</h2>
+    <table class="planilha" id="historico">
+      <thead>
+        <tr>
+          <th>Horário</th>
+          <th>Par</th>
+          <th>Sinal</th>
+          <th>Resultado</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
 
-  <table id="historico">
-    <thead>
-      <tr>
-        <th>Horário</th>
-        <th>Par</th>
-        <th>Sinal</th>
-        <th>Resultado</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
+  <!-- TradingView -->
+  <script src="https://s3.tradingview.com/tv.js"></script>
+  <script>
+    new TradingView.widget({
+      "width": "100%",
+      "height": 400,
+      "symbol": "BINANCE:BTCUSDT",
+      "interval": "1",
+      "timezone": "Etc/UTC",
+      "theme": "dark",
+      "style": "1",
+      "locale": "pt",
+      "toolbar_bg": "#1d1d1d",
+      "enable_publishing": false,
+      "allow_symbol_change": true,
+      "container_id": "tradingview_candle"
+    });
+  </script>
 
+  <!-- Lógica de sinais -->
   <script>
     const sinais = [
-      { texto: "COMPRA", classe: "verde" },
-      { texto: "VENDA", classe: "vermelho" },
-      { texto: "NÃO OPERAR", classe: "amarelo" },
-      { texto: "ANALISANDO", classe: "roxo" }
+      { texto: 'COMPRA', classe: 'verde' },
+      { texto: 'VENDA', classe: 'vermelho' },
+      { texto: 'AGUARDANDO ANÁLISE', classe: 'amarelo' },
+      { texto: 'NÃO HÁ TENDÊNCIAS', classe: 'dourado' }
     ];
 
     function gerarResultado() {
-      return Math.random() < 0.5 ? "WINN" : "LOSS";
+      return Math.random() < 0.7 ? 'WINN' : 'LOSS';
     }
 
     function gerarSinal() {
       const par = document.getElementById("pares").value;
-      const expiracao = parseInt(document.getElementById("expiracao").value); // tempo de expiração
       const hora = new Date().toLocaleTimeString();
       const sinal = sinais[Math.floor(Math.random() * sinais.length)];
       const tabela = document.querySelector("#historico tbody");
@@ -121,12 +217,23 @@
             resTd.style.color = resultado === "WINN" ? "limegreen" : "red";
             resTd.style.fontWeight = "bold";
           }
-        }, expiracao * 1000); // usa o valor selecionado em segundos
+        }, 60000);
       } else {
         linha.querySelector(".resultado").textContent = "";
       }
     }
-  </script>
 
+    let tempo = 60;
+    function atualizarTimer() {
+      document.getElementById("timer").innerText = `Próximo sinal em: ${tempo}s`;
+      if (tempo <= 0) {
+        gerarSinal();
+        tempo = 60;
+      }
+      tempo--;
+    }
+
+    setInterval(atualizarTimer, 1000);
+  </script>
 </body>
 </html>
