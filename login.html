@@ -11,6 +11,8 @@
       margin: 0;
       padding: 20px;
       text-align: center;
+      position: relative;
+      min-height: 100vh;
     }
 
     h1 {
@@ -64,14 +66,16 @@
       font-weight: bold;
     }
 
+    /* Link dourado pulsante */
     .teste-link {
       margin-top: 30px;
-      display: block;
-      color: #00f0ff;
+      display: inline-block;
+      color: #d4af37; /* cor dourada */
       text-decoration: underline;
       font-weight: bold;
       cursor: pointer;
       font-size: 1.1rem;
+      animation: pulsar 1.5s infinite;
     }
 
     /* Aviso vermelho pulsante */
@@ -116,9 +120,38 @@
       font-size: 1rem;
       line-height: 1.4;
     }
+
+    /* Botão flutuante dourado no canto superior direito */
+    #btn-corretora {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: #d4af37;
+      color: black;
+      padding: 12px 18px;
+      font-weight: bold;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 0 10px #d4af37aa;
+      transition: background-color 0.3s ease;
+      text-decoration: none;
+      z-index: 9999;
+      user-select: none;
+    }
+
+    #btn-corretora:hover {
+      background-color: #b7951d;
+      box-shadow: 0 0 15px #b7951dcc;
+      color: white;
+      text-decoration: none;
+    }
   </style>
 </head>
 <body>
+
+  <a id="btn-corretora" href="https://trade.obynexbroker.com/register?aff=757282&aff_model=revenue&afftrack=" target="_blank" rel="noopener noreferrer">
+    Corretora que indico
+  </a>
 
   <h1>BEM VINDOS AO ALVO-X</h1>
   <p class="descricao">O melhor indicador para você que ainda não entende do mercado.</p>
@@ -140,17 +173,17 @@
     <div class="resposta">É simples, basta apenas você colocar o par de moeda certo e aguardar o sinal do indicador.</div>
 
     <div class="pergunta">Esse indicador é gratuito?</div>
-    <div class="resposta">Você tem 7 dias para testar e se quiser continuar seu acesso depois dos 7 dias, cobramos uma taxa de R$189,00 por dispositivo.</div>
+    <div class="resposta">Você tem 7 dias para testar e se quiser continuar seu acesso depois dos 7 dias, cobramos uma taxa de R$99,99.</div>
 
     <div class="pergunta">Qual a taxa de assertividade?</div>
     <div class="resposta">A nossa Inteligência tem uma taxa de 70%, ela criptografa todo comportamento da corretora durante suas últimas 12 horas e armazena e começa soltando os sinais baseado nas últimas tendências.</div>
 
     <div class="pergunta">Qual corretora devo usar?</div>
-    <div class="resposta">Esse indicador foi feito para várias corretoras, mas somente para corretoras com o código da quadcode, ex: Obynex, Astron, IQ-Option e outras.</div>
+    <div class="resposta">Esse indicador foi feito para várias corretoras, mas somente para corretoras com o código da quadcode, Ex: Obynex, Astron, IQ-Option e outras.</div>
   </section>
 
   <script>
-    const senhaCorreta = "thurzintrader";
+    const senhaCorreta = "741963";
 
     function verificarSenha() {
       const senha = document.getElementById("senha").value.trim();
@@ -161,6 +194,13 @@
         msg.textContent = "ID incorreto. Tente novamente.";
       }
     }
+
+    // Permitir submeter com Enter
+    document.getElementById("senha").addEventListener("keypress", function(event) {
+      if (event.key === "Enter") {
+        verificarSenha();
+      }
+    });
   </script>
 
 </body>
