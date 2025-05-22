@@ -2,8 +2,8 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Alvo-X</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Alvo-X | Sinais OTC</title>
   <style>
     body {
       margin: 0;
@@ -15,109 +15,80 @@
 
     .container {
       max-width: 1000px;
-      margin: 0 auto;
+      margin: auto;
       padding: 20px;
     }
 
     .title {
       text-align: center;
-      font-size: 2.5rem;
+      font-size: 2.2rem;
       margin-bottom: 10px;
       color: #FFD700;
     }
 
     .subtitle {
       text-align: center;
-      font-size: 1.2rem;
+      font-size: 1rem;
       margin-bottom: 20px;
       color: #aaa;
     }
 
     .tradingview-widget-container {
-      margin: 0 auto;
       max-width: 100%;
       border-radius: 8px;
       overflow: hidden;
       box-shadow: 0 0 20px #FFD70055;
-    }
-
-    .buttons {
-      text-align: center;
-      margin: 30px 0;
+      margin-bottom: 30px;
     }
 
     .btn {
       background-color: #FFD700;
       color: #000;
-      padding: 15px 25px;
-      margin: 10px;
+      padding: 12px 20px;
+      margin: 5px;
       border: none;
       border-radius: 8px;
-      font-size: 1.2rem;
+      font-size: 1rem;
       cursor: pointer;
       font-weight: bold;
-      transition: background-color 0.3s ease;
+      transition: 0.3s;
     }
 
     .btn:hover {
       background-color: #e6c200;
     }
 
-    .countdown, .temporizador {
-      text-align: center;
-      font-size: 1.5rem;
-      margin: 20px 0;
-    }
-
-    .sinais {
-      background-color: #222;
-      padding: 20px;
-      border-radius: 10px;
-      margin-top: 30px;
-    }
-
-    .sinais h3, .titulo {
-      text-align: center;
-      color: #FFD700;
-      font-size: 1.5rem;
-      margin-bottom: 10px;
-    }
-
-    select, .corretora {
+    select {
       width: 100%;
-      padding: 12px;
-      margin: 10px 0;
+      padding: 10px;
       background-color: #222;
       color: #fff;
       border: 1px solid #444;
       border-radius: 5px;
-      font-size: 1rem;
+      margin-bottom: 10px;
     }
 
-    .planilha-wrapper {
-      overflow-x: auto;
+    .temporizador {
+      text-align: center;
+      font-size: 1.2rem;
+      margin: 20px 0;
     }
 
     .planilha {
       width: 100%;
       border-collapse: collapse;
-      margin-bottom: 20px;
-      min-width: 400px;
     }
 
     .planilha th, .planilha td {
       border: 1px solid #333;
       padding: 8px;
       text-align: center;
-    }
-
-    .planilha th {
-      background-color: #222;
+      font-size: 0.9rem;
     }
 
     .sinal {
       font-weight: bold;
-      padding: 5px 10px;
+      padding: 4px 8px;
       border-radius: 4px;
     }
 
@@ -128,20 +99,17 @@
 
     @media (max-width: 600px) {
       .title {
-        font-size: 2rem;
+        font-size: 1.8rem;
       }
-
       .subtitle {
-        font-size: 1rem;
+        font-size: 0.95rem;
       }
-
       .btn {
-        width: 100%;
-        font-size: 1rem;
-      }
-
-      .planilha th, .planilha td {
         font-size: 0.9rem;
+        padding: 10px 15px;
+      }
+      .planilha th, .planilha td {
+        font-size: 0.8rem;
         padding: 6px;
       }
     }
@@ -150,16 +118,13 @@
 <body>
   <div class="container">
     <h1 class="title">Alvo-X</h1>
-    <p class="subtitle">Só copiar e colar as operações e começar lucrar</p>
+    <p class="subtitle">Só copiar e colar as operações e começar a lucrar</p>
 
-    <!-- Gráfico TradingView -->
     <div class="tradingview-widget-container">
       <div id="tradingview_candle"></div>
     </div>
 
-    <div class="temporizador" id="timer">Próximo sinal em: 60s</div>
-
-    <label for="pares">Selecione o par de moedas:</label>
+    <label for="pares">Par de moedas:</label>
     <select id="pares">
       <option>EUR/USD (OTC)</option>
       <option>USD/JPY (OTC)</option>
@@ -169,7 +134,7 @@
       <option>BTC/USD (OTC)</option>
     </select>
 
-    <label for="corretora">Selecione a corretora:</label>
+    <label for="corretora">Corretora:</label>
     <select id="corretora">
       <option>Obynex</option>
       <option>Astron</option>
@@ -177,26 +142,24 @@
       <option>Hoken-broker</option>
     </select>
 
-    <h2 class="titulo">Sinais ao vivo</h2>
-    <div class="planilha-wrapper">
-      <table class="planilha" id="historico">
-        <thead>
-          <tr>
-            <th>Horário</th>
-            <th>Par</th>
-            <th>Sinal</th>
-            <th>Resultado</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Linhas geradas dinamicamente -->
-        </tbody>
-      </table>
-    </div>
+    <div class="temporizador" id="timer">Próximo sinal em: 60s</div>
+
+    <h2>Sinais ao Vivo</h2>
+    <table class="planilha" id="historico">
+      <thead>
+        <tr>
+          <th>Horário</th>
+          <th>Par</th>
+          <th>Sinal</th>
+          <th>Resultado</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
   </div>
 
-  <!-- Scripts -->
-  <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+  <!-- TradingView -->
+  <script src="https://s3.tradingview.com/tv.js"></script>
   <script>
     new TradingView.widget({
       "width": "100%",
@@ -214,6 +177,7 @@
     });
   </script>
 
+  <!-- Lógica de sinais -->
   <script>
     const sinais = [
       { texto: 'COMPRA', classe: 'verde' },
@@ -227,41 +191,35 @@
     }
 
     function gerarSinal() {
-      const parSelecionado = document.getElementById("pares").value;
+      const par = document.getElementById("pares").value;
       const hora = new Date().toLocaleTimeString();
       const sinal = sinais[Math.floor(Math.random() * sinais.length)];
-      const tabela = document.getElementById("historico").querySelector("tbody");
+      const tabela = document.querySelector("#historico tbody");
+      const id = 'linha-' + Date.now();
 
-      if (sinal.texto === 'COMPRA' || sinal.texto === 'VENDA') {
-        const idLinha = 'linha-' + Date.now();
-        const linha = document.createElement("tr");
-        linha.setAttribute('id', idLinha);
-        linha.innerHTML = `
-          <td>${hora}</td>
-          <td>${parSelecionado}</td>
-          <td><span class="sinal ${sinal.classe}">${sinal.texto}</span></td>
-          <td class="resultado">Aguardando...</td>
-        `;
-        tabela.insertBefore(linha, tabela.firstChild);
+      const linha = document.createElement("tr");
+      linha.setAttribute("id", id);
+      linha.innerHTML = `
+        <td>${hora}</td>
+        <td>${par}</td>
+        <td><span class="sinal ${sinal.classe}">${sinal.texto}</span></td>
+        <td class="resultado">Aguardando...</td>
+      `;
+      tabela.prepend(linha);
+
+      if (sinal.texto === "COMPRA" || sinal.texto === "VENDA") {
         setTimeout(() => {
           const resultado = gerarResultado();
-          const linhaAtual = document.getElementById(idLinha);
-          if (linhaAtual) {
-            const tdResultado = linhaAtual.querySelector('.resultado');
-            tdResultado.textContent = resultado;
-            tdResultado.style.color = resultado === 'WINN' ? 'limegreen' : 'red';
-            tdResultado.style.fontWeight = 'bold';
+          const el = document.getElementById(id);
+          if (el) {
+            const resTd = el.querySelector('.resultado');
+            resTd.textContent = resultado;
+            resTd.style.color = resultado === "WINN" ? "limegreen" : "red";
+            resTd.style.fontWeight = "bold";
           }
         }, 60000);
       } else {
-        const linha = document.createElement("tr");
-        linha.innerHTML = `
-          <td>${hora}</td>
-          <td>${parSelecionado}</td>
-          <td><span class="sinal ${sinal.classe}">${sinal.texto}</span></td>
-          <td></td>
-        `;
-        tabela.insertBefore(linha, tabela.firstChild);
+        linha.querySelector(".resultado").textContent = "";
       }
     }
 
