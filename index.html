@@ -237,3 +237,119 @@
   </script>
 </body>
 </html>
+
+
+
+
+
+
+  <!-- Seção de Aviso Importante -->
+  <div class="aviso-container">
+    <h2>🚨 AVISO IMPORTANTE:</h2>
+    <ul>
+      <li>🔹 Para você copiar nossos sinais, tem que estar na mesma corretora que estamos replicando.</li>
+      <li>🔹 Lembre-se que nosso indicador é só em par de moedas OTC e a expiração tem que ser de 1 minuto.</li>
+      <li>🔹 O Alvo-X é um indicador que gera um custo alto para ficar no ar, se quiser fazer uma doação para ajudar a manter o indicador, só mandar mensagem no suporte.</li>
+      <li>🔹 Fiquem atentos na hora que o tempo de expiração virar para você efetuar a operação.</li>
+      <li>🔹 Cuidado para não pegarem operações no tempo atrasado.</li>
+    </ul>
+    <div class="botoes-aviso">
+      <a href="https://trade.obynexbroker.com/register?aff=757282&aff_model=revenue&afftrack=" target="_blank" class="botao-link">Corretora</a>
+      <button onclick="compartilharAlvoX()" class="botao-compartilhar">📤 Compartilhe o Alvo-X</button>
+    </div>
+  </div>
+
+  <script>
+    function compartilharAlvoX() {
+      const texto = "🚀 Que tal conhecer o Alvo-X, o melhor indicador do mercado de opções binárias atualmente.";
+      const url = window.location.href;
+
+      if (navigator.share) {
+        navigator.share({
+          title: "Alvo-X",
+          text: texto,
+          url: url
+        }).catch((error) => console.log('Erro ao compartilhar:', error));
+      } else {
+        const mensagem = `${texto}\n${url}`;
+        navigator.clipboard.writeText(mensagem).then(() => {
+          alert("Texto copiado! Agora é só colar onde quiser.");
+        });
+      }
+    }
+  </script>
+
+  <style>
+    .aviso-container {
+      background: #111;
+      border: 2px solid gold;
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 40px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      color: #fff;
+    }
+
+    .aviso-container h2 {
+      color: gold;
+      font-size: 1.6rem;
+      margin-bottom: 10px;
+    }
+
+    .aviso-container ul {
+      text-align: left;
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .aviso-container li {
+      margin-bottom: 8px;
+      font-size: 1rem;
+    }
+
+    .botoes-aviso {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .botao-link, .botao-compartilhar {
+      background: gold;
+      color: #000;
+      font-weight: bold;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.3s ease;
+    }
+
+    .botao-link:hover, .botao-compartilhar:hover {
+      background: #ffd700;
+    }
+
+    @media (max-width: 600px) {
+      .aviso-container {
+        padding: 15px;
+      }
+
+      .aviso-container h2 {
+        font-size: 1.3rem;
+      }
+
+      .aviso-container li {
+        font-size: 0.95rem;
+      }
+
+      .botao-link, .botao-compartilhar {
+        width: 100%;
+        text-align: center;
+      }
+    }
+  </style>
