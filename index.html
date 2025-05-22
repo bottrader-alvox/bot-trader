@@ -437,3 +437,108 @@
 </style>
 
 
+
+
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Área Restrita</title>
+  <style>
+    body {
+      background-color: #000;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding-top: 50px;
+    }
+
+    #senha-container {
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 30px;
+    }
+
+    #senha {
+      padding: 10px;
+      font-size: 16px;
+      width: 80%;
+      margin-top: 15px;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #444;
+      color: white;
+      border: none;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #666;
+    }
+
+    #mensagem {
+      color: red;
+      margin-top: 10px;
+    }
+
+    #conteudo {
+      display: none;
+    }
+
+    img {
+      width: 150px;
+      margin-bottom: 20px;
+    }
+
+    .teste-link {
+      margin-top: 25px;
+      display: block;
+      color: #00f0ff;
+      text-decoration: underline;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="senha-container">
+    <img src="logo.png" alt="Logo do site" />
+    <h2>Informe seu ID para acessar</h2>
+    <input type="password" id="senha" placeholder="Digite seu ID">
+    <button onclick="verificarSenha()">Entrar</button>
+    <p id="mensagem"></p>
+    <a class="teste-link" href="https://seulinkde7dias.com" target="_blank">
+      Quero testar por 7 dias grátis o Alvo-X
+    </a>
+  </div>
+
+  <div id="conteudo">
+    <h1>Bem-vindo ao conteúdo exclusivo!</h1>
+    <p>Acesso liberado com sucesso.</p>
+  </div>
+
+  <script>
+    const senhaCorreta = "thurzintrader";
+
+    function verificarSenha() {
+      const senha = document.getElementById("senha").value;
+      const mensagem = document.getElementById("mensagem");
+
+      if (senha === senhaCorreta) {
+        document.getElementById("senha-container").style.display = "none";
+        document.getElementById("conteudo").style.display = "block";
+      } else {
+        mensagem.textContent = "ID incorreto. Tente novamente.";
+      }
+    }
+  </script>
+
+</body>
+</html>
+
